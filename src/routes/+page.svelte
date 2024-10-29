@@ -4,20 +4,40 @@ import { onMount } from "svelte";
 let currentTask = $state("");
 let taskList = $state([]);
 
-$inspect("currentTask:",currentTask);
-$inspect("taskList:",taskList);
+// $inspect("currentTask:",currentTask);
+// $inspect("taskList:",taskList);
+
+onMount(() => {
+    loadTaskList();
+});
 
 function addTask() {
     taskList.push(currentTask);
     currentTask = "";
+    saveTaskList();
 };
 
 function deleteTask(index) {
     taskList = taskList.filter((_, i) => i !== index);
+    saveTaskList();
+};
+
+function saveTaskList() {
+    localStorage.setItem("taskList", JSON.stringify(taskList));
+    // console.log("saved list: ", taskList);
+};
+
+function loadTaskList() {
+    let savedTasksString = localStorage.getItem("taskList");
+    if (savedTasksString) {
+        // let newTasks = JSON.parse(savedTasksString); // TODO: lets try better security
+        let savedData = JSON.parse(savedTasksString);
+        taskList = savedData;
+        // console.log("loaded list: ", savedData);
+    }
 };
 
 </script>
-
 
 
 <div>
