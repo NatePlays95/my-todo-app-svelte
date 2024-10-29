@@ -1,4 +1,6 @@
 <script>
+    import { fly } from 'svelte/transition';
+
     let { task, index, onDelete } = $props();
 
     function handleDelete() {
@@ -14,7 +16,7 @@
     @import './TaskCard.css';
 </style>
 
-<div class="task-card">
+<div class="task-card" transition:fly={{ y: '-5rem', duration: 200 }}>
     {task}
     <button 
     class="task-card-delete-btn"
